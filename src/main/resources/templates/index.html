@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mortgage plan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light justify-content-between py-3 px-5">
+    <a class="navbar-brand" href="#">Mortgage Plan</a>
+    <div class="d-flex align-items-center">
+        <span th:if="${userName != null}" th:text="'Hi, ' + ${userName} + '!'" class="mx-2"></span>
+        <a th:if="${userName != null}" th:href="@{/logout}" class="btn btn-outline-primary" role="button"
+           aria-pressed="true">Log
+            out</a>
+        <a th:if="${userName == null}" th:href="@{/login}" class="btn btn-outline-primary" role="button"
+           aria-pressed="true">Log
+            in</a>
+    </div>
+</nav>
+<div class="container text-center mt-5 overflow-hidden">
+    <div class="row justify-content-center mt-5 gx-5 gy-5">
+        <div class="col-lg-8">
+            <div class="card p-3">
+                <h4 class="text-start mb-3">Existing customers</h4>
+                <div class="table-responsive-lg">
+                    <div th:if="${customers.isEmpty()}" class="d-flex justify-content-center align-items-center">
+                        No data
+                    </div>
+                    <table th:unless="${customers.isEmpty()}" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">Customer name</th>
+                            <th scope="col">Total loan</th>
+                            <th scope="col">Yearly interest</th>
+                            <th scope="col">Loan duration</th>
+                            <th scope="col">Fixed payment</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="customer: ${customers}">
+                            <td th:text="${customer.name}"></td>
+                            <td th:text="'€' + ${customer.totalLoan}"></td>
+                            <td th:text="${customer.interestPercent} + '%'"></td>
+                            <td th:text="${customer.loanDurationYears} + ' ' + ${customer.loanDurationYears == 1 ? 'year' : 'years'}"></td>
+                            <td th:text="'€' + ${customer.monthlyPayment} + ' / month'"></td>
+                            <td>
+                                <a th:if="${customer.id} == null">-</a>
+                                <form
+                                        action="#"
+                                        th:if="${customer.id} != null"
+                                        th:action="@{/delete-customer(id=${customer.id})}"
+                                        method="post">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card p-3">
+                <h4 class="text-start mb-3">Add customer</h4>
+                <div th:if="${userName} == null" class="d-flex justify-content-center align-items-center">
+                    Log in to manage custom data
+                </div>
+                <div th:if="${userName} != null">
+                    <form action="#" th:action="@{/add-customer}" th:object="${newCustomer}" method="post">
+                        <div class="form-group row">
+                            <label for="newCustomerName" class="col-md-6 col-form-label">Name</label>
+                            <div class="col-md-6">
+                                <input th:classappend="${badFields != null && badFields.contains('name')} ? 'is-invalid'"
+                                       type="text" class="form-control" id="newCustomerName"
+                                       placeholder="e.g. John Smith"
+                                       th:field="*{name}" required>
+                                <div th:if="${badFields != null && badFields.contains('name')}"
+                                     class="invalid-feedback">
+                                    Invalid name
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <label for="newCustomerTotalLoan" class="col-md-6 col-form-label">Total loan (€)</label>
+                            <div class="col-md-6">
+                                <input th:classappend="${badFields != null && badFields.contains('totalLoan')} ? 'is-invalid'"
+                                       type="number" step="0.01" class="form-control" id="newCustomerTotalLoan"
+                                       placeholder="e.g. 15000" th:field="*{totalLoan}" required>
+                                <div th:if="${badFields != null && badFields.contains('totalLoan')}"
+                                     class="invalid-feedback">
+                                    Invalid number
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <label for="newCustomerInterestPercent" class="col-md-6 col-form-label">Yearly interest
+                                (%)</label>
+                            <div class="col-md-6">
+                                <input th:classappend="${badFields != null && badFields.contains('interestPercent')} ? 'is-invalid'"
+                                       type="number" step="0.01" class="form-control" id="newCustomerInterestPercent"
+                                       placeholder="e.g. 1.5" th:field="*{interestPercent}" required>
+                                <div th:if="${badFields != null && badFields.contains('interestPercent')}"
+                                     class="invalid-feedback">
+                                    Invalid number
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <label for="newCustomerYears" class="col-md-6 col-form-label">Years</label>
+                            <div class="col-md-6">
+                                <input th:classappend="${badFields != null && badFields.contains('loanDurationYears')} ? 'is-invalid'"
+                                       type="number" class="form-control" id="newCustomerYears"
+                                       placeholder="e.g. 5" th:field="*{loanDurationYears}" required>
+                                <div th:if="${badFields != null && badFields.contains('loanDurationYears')}"
+                                     class="invalid-feedback">
+                                    Invalid number
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4">Add customer</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

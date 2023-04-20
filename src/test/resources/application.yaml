@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+  security:
+    oauth2:
+      client:
+        registration:
+          test:
+            client-id: id
+            client-secret: supersecretkey
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          test:
+            issuer-uri: "https://olafparfienczyk.eu.auth0.com/"
+customer:
+  demo:
+    from-csv: classpath:test-prospects.txt
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
