@@ -18,7 +18,7 @@ public interface CustomerConverter {
     /**
      * Creates new customer entity from {@link NewCustomerDTO} DTO with owning user.
      *
-     * @param owner User entity to which customer will be bound
+     * @param owner          User entity to which customer will be bound
      * @param newCustomerDTO Source DTO
      * @return Customer entity
      */

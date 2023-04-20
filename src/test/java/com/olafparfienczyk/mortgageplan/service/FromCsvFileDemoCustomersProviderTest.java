@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class FromCsvFileDemoCustomersProviderTest {
 
@@ -24,10 +25,10 @@ class FromCsvFileDemoCustomersProviderTest {
         assertEquals(2, demoCustomers.size());
         assertEquals(demoCustomers.get(0),
                 new NewCustomerDTO()
-                .setName("Juhé")
-                .setTotalLoan(1000)
-                .setInterestPercent(5)
-                .setLoanDurationYears(2));
+                        .setName("Juhé")
+                        .setTotalLoan(1000)
+                        .setInterestPercent(5)
+                        .setLoanDurationYears(2));
         assertEquals(demoCustomers.get(1),
                 new NewCustomerDTO()
                         .setName("Clarencé,Andersson")

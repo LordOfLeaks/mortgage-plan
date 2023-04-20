@@ -33,9 +33,9 @@ public class Auth0LogoutHandler extends SecurityContextLogoutHandler {
      * Delegates to {@linkplain SecurityContextLogoutHandler} to log the user out of the application, and then logs
      * the user out of Auth0.
      *
-     * @param httpServletRequest the request.
+     * @param httpServletRequest  the request.
      * @param httpServletResponse the response.
-     * @param authentication the current authentication.
+     * @param authentication      the current authentication.
      */
     @Override
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,

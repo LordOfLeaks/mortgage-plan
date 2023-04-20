@@ -56,8 +56,8 @@ Use the following command to build the image `docker build -t mortgage-plan .`.
 
 #### Running
 
-Use the following command to run the previously built image (replace environment variables with custom values): 
+Use the following command to run the previously built image (replace environment variables with custom values):
 
-`docker run -it -e AUTH0_CLIENT_ID=<client id> -e AUTH0_CLIENT_SECRET=<client secret> -e AUTH0_ISSUER_URI=<issuer uri> -p 8080:8080 mortgage-plan`. 
+`docker run -it -e AUTH0_CLIENT_ID=<client id> -e AUTH0_CLIENT_SECRET=<client secret> -e AUTH0_ISSUER_URI=<issuer uri> -p 8080:8080 mortgage-plan`.
 
 The application will be accessible on `http://localhost:8080`.
